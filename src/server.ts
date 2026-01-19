@@ -1,11 +1,13 @@
 import {
   AngularNodeAppEngine,
+  CommonEngine,
   createNodeRequestHandler,
   isMainModule,
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { render } from "@netlify/angular-runtime/common-engine";
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -66,3 +68,11 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
  * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
  */
 export const reqHandler = createNodeRequestHandler(app);
+const commonEngine = new CommonEngine();
+ 
+export async function netlifyCommonEngineHandler(
+  request: Request,
+  context: any
+): Promise<Response> {
+  return await render(commonEngine);
+}
