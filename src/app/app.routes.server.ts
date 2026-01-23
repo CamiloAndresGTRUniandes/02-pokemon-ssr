@@ -3,7 +3,7 @@ import { PrerenderFallback, RenderMode, ServerRoute } from '@angular/ssr';
 import { Pokemons as PokemonService } from './pokemons/services/pokemons';
 
 export const serverRoutes: ServerRoute[] = [
-   {
+  {
     path: 'about',
     renderMode: RenderMode.Prerender
 
@@ -33,6 +33,6 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: '**',
-    renderMode: RenderMode.Server
+    renderMode: RenderMode.Prerender,
   }
 ];
