@@ -72,9 +72,9 @@ export default class PokemonsPage implements OnInit, OnDestroy {
         next: (pokemons) => {
           //console.log({pokemons});
           this.pokemons.set(pokemons);
-          setTimeout(() => {
+          // setTimeout(() => {
             this.isLoading.set(false);
-          }, 500);
+          // }, 100);
         },
         error: (err) => {
           console.log({ err });

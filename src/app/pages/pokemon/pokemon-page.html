@@ -1,1 +1,36 @@
-<p>pokemon-page works!</p>,
+<section class="flex flex-col justify-center">
+  <div class="flex justify-center">
+    @if (pokemon()!== null) {
+    @let poke = pokemon()!;
+    <div class="card">
+      <img
+      [src]="poke.sprites.other?.['official-artwork']?.front_default"
+      [alt]="poke.name"
+      class="w-64 h-64"
+      width="256px"
+      height="256px" />
+      <div class="card-body">
+        <h2 class="card-title text-3xl capitalize text-center">{{ poke.name | titlecase }}</h2>
+        <p class="text-lg mt-2">ID: {{ poke.id }}</p>
+        <p class="text-lg mt-2">Height: {{ poke.height }}</p>
+        <p class="text-lg mt-2">Weight: {{ poke.weight }}</p>
+        @if(poke.cries.latest !== null){
+        <audio controls class="my-10">
+          <source [src]="poke.cries.latest" type="audio/wav" />
+        </audio>
+        }
+        <div>
+          <h3 class="text-2xl mb-2 text-center">Abilities:</h3>
+          <ul>
+            @for (ability of poke.abilities; track ability.ability!.name) {
+            <li class="text-lg capitalize">{{ ability.ability!.name | titlecase }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <h1 class="text-4xl font-bold">Loading Pokémon data...</h1>
+    }
+  </div>
+</section>
