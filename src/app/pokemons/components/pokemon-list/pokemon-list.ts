@@ -6,7 +6,6 @@ import { SimplePokemon } from '../../interfaces';
   selector: 'pokemon-list',
   imports: [PokemonCard],
   templateUrl: './pokemon-list.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonList {
   public pokemons = input.required<SimplePokemon[]>();

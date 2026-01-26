@@ -1,33 +1,60 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { Component } from '@angular/core';
+import { Navbar } from './shared/components/navbar/navbar';
+
+@Component({
+  selector: 'app-navbar',
+  template: '<nav>Navbar</nav>',
+})
+class MockNavbarComponent { }
 
 describe('App', () => {
+let fixture: ComponentFixture<App>;
+let app: App;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App, RouterTestingModule],
-    }).compileComponents();
+      imports: [App],
+    })
+    .overrideComponent(App, {
+      add: {
+       imports: [MockNavbarComponent],
+      },
+      remove: {
+        imports: [Navbar],
+      },
+    })
+    .compileComponents();
+    fixture = TestBed.createComponent(App);
+    app = fixture.componentInstance as any;
+    fixture.detectChanges();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
   it('should expose the title signal with default value', () => {
-    const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance as any;
     expect(typeof app.title).toBe('function');
     expect(app.title()).toBe('pokemon-ssr');
   });
 
   it('should render navbar and layout wrapper', async () => {
-    const fixture = TestBed.createComponent(App);
-    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('app-navbar')).toBeTruthy();
     expect(compiled.querySelector('div.max-w-3xl')).toBeTruthy();
+  });
+
+  it('should have router-outlet', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
+  });
+
+  it('should match snapshot', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled).toMatchSnapshot();
   });
 });

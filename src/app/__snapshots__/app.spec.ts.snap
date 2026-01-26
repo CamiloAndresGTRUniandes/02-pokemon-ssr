@@ -1,0 +1,20 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App > should match snapshot 1`] = `
+<div
+  id="root4"
+  ng-version="21.1.0"
+>
+  <app-navbar>
+    <nav>
+      Navbar
+    </nav>
+  </app-navbar>
+  <div
+    class="max-w-3xl m-auto mt-16 px-2"
+  >
+    <router-outlet />
+    <!--container-->
+  </div>
+</div>
+`;

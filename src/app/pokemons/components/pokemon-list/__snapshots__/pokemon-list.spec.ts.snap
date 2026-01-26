@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PokemonList > should match snapshot 1`] = `
+<div
+  id="root2"
+  ng-version="21.1.0"
+>
+  <div
+    class="grid gap-3 grid-cols-1 sm:grid-cols-3 md:grid-cols-5"
+  >
+    <pokemon-card>
+      <div
+        class="bg-blue-900 animate-fadeIn h-44 bg-opacity-25 rounded-lg shadow-md flex flex-col p-4 items-center justify-center cursor-pointer"
+        tabindex="0"
+      >
+        <img
+          alt="bulbasaur"
+          class="w-24 h-24 mx-auto mb-2"
+          height="96px"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+          width="96px"
+        />
+        <div
+          class="text-center mt-2"
+        >
+          <h2
+            class="text-xl font-bold capitalize text-white"
+          >
+            bulbasaur
+          </h2>
+        </div>
+      </div>
+    </pokemon-card>
+    <pokemon-card>
+      <div
+        class="bg-blue-900 animate-fadeIn h-44 bg-opacity-25 rounded-lg shadow-md flex flex-col p-4 items-center justify-center cursor-pointer"
+        tabindex="0"
+      >
+        <img
+          alt="ivysaur"
+          class="w-24 h-24 mx-auto mb-2"
+          height="96px"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
+          width="96px"
+        />
+        <div
+          class="text-center mt-2"
+        >
+          <h2
+            class="text-xl font-bold capitalize text-white"
+          >
+            ivysaur
+          </h2>
+        </div>
+      </div>
+    </pokemon-card>
+    <pokemon-card>
+      <div
+        class="bg-blue-900 animate-fadeIn h-44 bg-opacity-25 rounded-lg shadow-md flex flex-col p-4 items-center justify-center cursor-pointer"
+        tabindex="0"
+      >
+        <img
+          alt="venusaur"
+          class="w-24 h-24 mx-auto mb-2"
+          height="96px"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png"
+          width="96px"
+        />
+        <div
+          class="text-center mt-2"
+        >
+          <h2
+            class="text-xl font-bold capitalize text-white"
+          >
+            venusaur
+          </h2>
+        </div>
+      </div>
+    </pokemon-card>
+    <!--container-->
+    <!--container-->
+  </div>
+</div>
+`;
