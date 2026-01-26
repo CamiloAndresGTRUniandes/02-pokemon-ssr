@@ -33,9 +33,9 @@ export class Pokemons {
     );
   }
 
-  public getPokemonById(id: number): Observable<Pokemon> {
+  public getPokemonById(name: string): Observable<Pokemon> {
     return this.http.get<Pokemon>(
-      `https://pokeapi.co/api/v2/pokemon/${id}`
+      `https://pokeapi.co/api/v2/pokemon/${name}`
     );
   }
 }

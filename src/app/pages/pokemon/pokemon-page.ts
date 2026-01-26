@@ -21,9 +21,9 @@ export default class PokemonPage implements OnInit {
 
 
 ngOnInit(): void {
-  const id = this.route.snapshot.paramMap.get('id');
-  if(!id) return;
-    this.pokemonService.getPokemonById(+id)
+  const name = this.route.snapshot.paramMap.get('name');
+  if(!name) return;
+    this.pokemonService.getPokemonById(name!)
     .pipe(
       tap( ({name, id, sprites: { other }}) => {
         const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
