@@ -1,56 +1,43 @@
 
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+This project is an Angular 21 SSR application (Netlify + Express examples) using standalone components and lazy-loaded pages.
 
-## TypeScript Best Practices
+Key areas you should know and follow when modifying code here:
 
-- Use strict type checking
-- Prefer type inference when the type is obvious
-- Avoid the `any` type; use `unknown` when type is uncertain
+- Architecture: SSR + client. Server entry points: `src/main.server.ts` and `src/server.ts`. Browser entry: `src/main.ts`.
+- Routing: Routes live in `src/app/app.routes.ts` (client lazy-loads with `loadComponent`). Server-specific routing overrides appear in `src/app/app.routes.server.ts` when needed.
+- App bootstrap: app is bootstrapped with `bootstrapApplication(App, config)` — follow the config pattern in `src/app/app.config.ts` and `src/app/app.config.server.ts`.
+- SSR handling: `src/server.ts` uses `@angular/ssr/node`'s `AngularNodeAppEngine` and serves static files from `dist/*/browser`. Add simple Express API endpoints in `src/server.ts` only when they must run on the Node side.
 
-## Angular Best Practices
+Developer workflows / commands (from `package.json`):
 
-- Always use standalone components over NgModules
-- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
-- Use signals for state management
-- Implement lazy loading for feature routes
-- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
-- Use `NgOptimizedImage` for all static images.
-  - `NgOptimizedImage` does not work for inline base64 images.
+- Dev server: `npm start` (runs `ng serve`).
+- Build: `npm run build` (runs `ng build`).
+- Watch build (dev): `npm run watch`.
+- Tests: `npm test` or `ng test` (project uses Angular tooling; `vitest` appears in devDependencies but use the configured `ng test`).
+- SSR run after build: `npm run serve:ssr:pokemon-ssr` -> `node dist/pokemon-ssr/server/server.mjs` (Node >=20 required).
 
-## Accessibility Requirements
+Project-specific conventions and examples:
 
-- It MUST pass all AXE checks.
-- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
+- File layout: pages and components use paired `.ts` + `.html` files under `src/app/pages` and `src/app/pokemons/components`. Keep that pattern.
+- Lazy routes: use `loadComponent: () => import('./pages/xyz/xyz-page')` as in `src/app/app.routes.ts` — keep relative imports and default exports.
+- Services: example `src/app/pokemons/services/pokemons.ts` uses `inject(HttpClient)` and returns RXJS observables. Follow this style (no constructor injection required).
+- Templates: external `.html` files are used (avoid inlining unless tiny). Templates follow simple bindings; avoid heavy logic in templates—compute in the component.
 
-### Components
+Integration points / external dependencies:
 
-- Keep components small and focused on a single responsibility
-- Use `input()` and `output()` functions instead of decorators
-- Use `computed()` for derived state
-- Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator
-- Prefer inline templates for small components
-- Prefer Reactive forms instead of Template-driven ones
-- Do NOT use `ngClass`, use `class` bindings instead
-- Do NOT use `ngStyle`, use `style` bindings instead
-- When using external templates/styles, use paths relative to the component TS file.
+- PokeAPI: `https://pokeapi.co/api/v2` is used by `Pokemons` service; treat it as an external data source for pager and detail views.
+- Netlify runtime: `@netlify/angular-runtime` is present; `src/server.ts` exports `netlifyCommonEngineHandler` for Netlify functions.
 
-## State Management
+Editing guidance for common tasks:
 
-- Use signals for local component state
-- Use `computed()` for derived state
-- Keep state transformations pure and predictable
-- Do NOT use `mutate` on signals, use `update` or `set` instead
+- Add a client route: update `src/app/app.routes.ts` with a lazy `loadComponent` entry and place the page under `src/app/pages/...`.
+- Add a server API endpoint: edit `src/server.ts` and add an `app.get('/api/...', ...)` handler before the SSR middleware.
+- Debug SSR locally: `npm run build` -> `npm run serve:ssr:pokemon-ssr` then open the port printed by the server (defaults to 4000 or `PORT`).
 
-## Templates
+What to avoid / project rules:
 
-- Keep templates simple and avoid complex logic
-- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
-- Use the async pipe to handle observables
-- Do not assume globals like (`new Date()`) are available.
-- Do not write arrow functions in templates (they are not supported).
+- Do not change the bootstrap approach — use `bootstrapApplication` and the config pattern.
+- Keep component public APIs explicit (no uncontrolled `any`). Prefer `SimplePokemon` / `Pokemon` interfaces found in `src/app/pokemons/interfaces`.
+- Do not add client-only code into `src/server.ts` — server file is for Node/SSR responsibilities.
 
-## Services
-
-- Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Use the `inject()` function instead of constructor injection
+If anything in this file is unclear or you want more examples (tests, CI, or Netlify deploy), tell me which area and I will add short, focused examples.

@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [App, RouterTestingModule],
     }).compileComponents();
   });
 
@@ -14,10 +15,19 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should expose the title signal with default value', () => {
     const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance as any;
+    expect(typeof app.title).toBe('function');
+    expect(app.title()).toBe('pokemon-ssr');
+  });
+
+  it('should render navbar and layout wrapper', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, pokemon-ssr');
+    expect(compiled.querySelector('app-navbar')).toBeTruthy();
+    expect(compiled.querySelector('div.max-w-3xl')).toBeTruthy();
   });
 });
