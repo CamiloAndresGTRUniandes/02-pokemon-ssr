@@ -4,5 +4,5 @@
 
 # A basic redirect rule
 [[redirects]]
-  from = "/*"
+  from = "**"
   to = "/pokemons"
