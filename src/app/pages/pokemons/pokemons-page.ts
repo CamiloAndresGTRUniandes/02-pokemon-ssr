@@ -43,7 +43,7 @@ export default class PokemonsPage  {
 
   public loadOnPageChanged = effect(() => {
     this.loadPokemnos(this.currentPage());
-  }, { allowSignalWrites: true });
+  });
 
   // Load Pokemons for the given page number
   public loadPokemnos(nextPage = 0) {
